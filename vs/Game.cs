@@ -4,56 +4,88 @@ namespace tictactoe_csharp
 {
     public class Game
     {
-        public StringBuilder board;
+        private const char EMPTY_CELL = '-';
+        private const int NO_WINNER_MOVE = -1;
+        private const int CANNOT_MOVE = -1;
+        public Board board;
 
         public Game(string s)
         {
-            board = new StringBuilder(s);
+            board = new Board(s);
         }
         public Game(StringBuilder s, int position, char player)
         {
-            board = new StringBuilder();
-            board.Append(s);
-            board[position] = player;
+            board = new Board(s.ToString());
+            board.SetPlayer(position, player);
         }
 
         public int Move(char player)
         {
-            // find winning move
+            int pos = CANNOT_MOVE;
+            if (HasWinningMove(player, out pos))
+            {
+                return pos;
+            }
+            return FindDefaultMove();
+        }
+
+        public Game Play(int i, char player)
+        {
+            return new Game(board.data, i, player);
+        }
+
+        public char Winner()
+        {
+            foreach (var pos in new int[] { 0, 3, 6 })
+            {
+                if (IsRowSamePlayer(pos))
+                    return board.GetPosPlayer(pos);
+            }
+            return EMPTY_CELL;
+        }
+        private bool IsEmpty(int pos)
+        {
+            return board.IsEmpty(pos);
+        }
+        private bool IsRowSamePlayer(int pos)
+        {
+            return board.IsRowSamePlayer(pos);
+        }
+
+        private bool HasWinningMove(char player, out int pos)
+        {
+            pos = FindWinnerMove(player);
+            if (pos != NO_WINNER_MOVE)
+            {
+                return true;
+            }
+            return false;
+        }
+        private int FindWinnerMove(char player)
+        {
             for (int i = 0; i < 9; i++)
             {
-                if(board[i] == '-') {
+                if (IsEmpty(i))
+                {
                     var game = Play(i, player);
-                    if(game.Winner() == player)
+                    if (game.Winner() == player)
+                    {
                         return i;
+                    }
                 }
             }
-
-            // find default move
-            for (int i = 0; i < 9; i++) {
-                if (board[i] == '-')
+            return NO_WINNER_MOVE;
+        }
+        private int FindDefaultMove()
+        {
+            for (int i = 0; i < 9; i++)
+            {
+                if (IsEmpty(i))
+                {
                     return i;
+                }
             }
-
-            return -1;
-        }
-
-        public Game Play(int i, char player) {
-            return new Game(board, i, player);
-        }
-
-        public char Winner() {
-            if (board[0] != '-' && board[0] == board[1]
-                    && board[1] == board[2])
-                return board[0];
-            if (board[3] != '-' && board[3] == board[4]
-                    && board[4] == board[5])
-                return board[3];
-            if (board[6] != '-' && board[6] == board[7]
-                    && board[7] == board[8])
-                return board[6];
-
-            return '-';
+            return CANNOT_MOVE;
         }
     }
 }
