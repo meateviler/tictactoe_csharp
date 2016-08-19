@@ -66,8 +66,7 @@ namespace tictactoe_csharp
             {
                 if (IsEmpty(i))
                 {
-                    var game = Play(i, player);
-                    if (game.Winner() == player)
+                    if (Play(i, player).Winner() == player)
                     {
                         return i;
                     }
