@@ -4,7 +4,6 @@ namespace tictactoe_csharp
 {
     public class Game
     {
-        private const char EMPTY_CELL = '-';
         private const int NO_WINNER_MOVE = -1;
         private const int CANNOT_MOVE = -1;
         public Board board;
@@ -41,7 +40,7 @@ namespace tictactoe_csharp
                 if (IsRowSamePlayer(pos))
                     return board.GetPosPlayer(pos);
             }
-            return EMPTY_CELL;
+            return Board.EMPTY_CELL;
         }
         private bool IsEmpty(int pos)
         {
