@@ -1,52 +1,53 @@
-using Xunit;
+using NUnit.Framework;
 using System.Text;
 
 namespace tictactoe_csharp
 {
+    [TestFixture]
     public class GameTest
     {
-        [Fact]
+        [Test]
         public void testOnlyAvailableMove()
         {
             var game = new Game("XOXOX-OXO");
-            Assert.Equal(5, game.Move('X'));
+            Assert.AreEqual(5, game.Move('X'));
 
             game = new Game("XOXOXOOX-");
-            Assert.Equal(8, game.Move('O'));
+            Assert.AreEqual(8, game.Move('O'));
         }
 
-		[Fact]
+        [Test]
         public void testStartingDefaultMove()
         {
             Game game = new Game("---------");
-            Assert.Equal(0, game.Move('X'));
+            Assert.AreEqual(0, game.Move('X'));
         }
 
-		[Fact]
+        [Test]
         public void testNoAvailableMove()
         {
             Game game = new Game("XXXXXXXXX");
-            Assert.Equal(-1, game.Move('X'));
+            Assert.AreEqual(-1, game.Move('X'));
         }
 
-		[Fact]
+        [Test]
         public void testFindWinningRowMove()
         {
             Game game = new Game("OO-XX-OOX");
-            Assert.Equal(5, game.Move('X'));
+            Assert.AreEqual(5, game.Move('X'));
         }
-		
-		[Fact]
+
+        [Test]
         public void testWinByRowConditions()
         {
             Game game = new Game("---XXX---");
-            Assert.Equal('X', game.Winner());
+            Assert.AreEqual('X', game.Winner());
 
             game = new Game("------OOO");
-            Assert.Equal('O', game.Winner());
+            Assert.AreEqual('O', game.Winner());
 
             game = new Game("YYY------");
-            Assert.Equal('Y', game.Winner());
+            Assert.AreEqual('Y', game.Winner());
         }
     }
 
