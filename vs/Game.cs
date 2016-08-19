@@ -6,7 +6,7 @@ namespace tictactoe_csharp
     {
         private const int NO_WINNER_MOVE = -1;
         private const int CANNOT_MOVE = -1;
-        public Board board;
+        private Board board;
 
         public Game(string s)
         {
@@ -28,9 +28,9 @@ namespace tictactoe_csharp
             return FindDefaultMove();
         }
 
-        public Game Play(int i, char player)
+        public Game Play(int pos, char player)
         {
-            return new Game(board.data, i, player);
+            return new Game(board.data, pos, player);
         }
 
         public char Winner()
